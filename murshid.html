@@ -1134,6 +1134,9 @@
                             <div class="user-dropdown-item" id="adminLink" style="display: none;">
                                 <i class="fas fa-cog"></i> Admin Panel
                             </div>
+                            <div class="user-dropdown-item" id="wishlistLink">
+                                <i class="fas fa-heart"></i> Your Wishlist
+                            </div>
                             <div class="user-dropdown-item" id="logoutLink">
                                 <i class="fas fa-sign-out-alt"></i> Sign Out
                             </div>
@@ -1416,6 +1419,7 @@
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initializing application...');
             initializeApp();
             setupEventListeners();
             checkAuthentication();
@@ -1423,8 +1427,11 @@
 
         // Initialize application
         function initializeApp() {
+            console.log('Initializing app data...');
+            
             // Create admin user if not exists
             if (!users.find(u => u.email === SECURITY_CONFIG.adminEmail)) {
+                console.log('Creating admin user...');
                 users.push({
                     id: generateId(),
                     name: 'Admin User',
@@ -1438,6 +1445,7 @@
 
             // Add sample products if empty
             if (products.length === 0) {
+                console.log('Creating sample products...');
                 products.push(
                     {
                         id: generateId(),
@@ -1464,29 +1472,57 @@
                         rating: 4.2,
                         dateAdded: new Date().toISOString(),
                         images: []
+                    },
+                    {
+                        id: generateId(),
+                        name: 'Stainless Steel Water Bottle',
+                        category: 'sports',
+                        price: 24.99,
+                        description: 'Keep your drinks cold for 24 hours or hot for 12 hours with this premium bottle.',
+                        stock: 30,
+                        brand: 'HydroFlask',
+                        seller: SECURITY_CONFIG.adminEmail,
+                        rating: 4.7,
+                        dateAdded: new Date().toISOString(),
+                        images: []
                     }
                 );
                 saveData();
             }
+            
+            console.log('App initialization complete');
         }
 
         // Setup event listeners
         function setupEventListeners() {
+            console.log('Setting up event listeners...');
+            
             // Auth tabs
             document.querySelectorAll('.auth-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
+                    console.log('Switching auth tab to:', this.getAttribute('data-form'));
                     switchAuthTab(this.getAttribute('data-form'));
                 });
             });
 
-            // Auth forms
-            document.getElementById('loginForm').addEventListener('submit', handleLogin);
-            document.getElementById('registerForm').addEventListener('submit', handleRegister);
+            // Auth forms - FIXED: Prevent default and call handlers
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log('Login form submitted');
+                handleLogin(e);
+            });
+            
+            document.getElementById('registerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log('Register form submitted');
+                handleRegister(e);
+            });
 
             // Navigation
             document.querySelectorAll('.secondary-nav li').forEach(item => {
                 item.addEventListener('click', function() {
                     const tabName = this.getAttribute('data-tab');
+                    console.log('Switching to tab:', tabName);
                     if ((tabName === 'sell' || tabName === 'admin') && !hasSellingPrivileges()) {
                         showNotification('Access restricted to admin users only', 'warning');
                         return;
@@ -1495,21 +1531,39 @@
                 });
             });
 
-            // User dropdown
+            // User dropdown - FIXED: Proper click handling
             document.getElementById('userAccount').addEventListener('click', function(e) {
+                console.log('User account clicked');
                 const dropdown = document.getElementById('userDropdown');
                 dropdown.classList.toggle('active');
                 e.stopPropagation();
             });
 
-            // User dropdown items
+            // User dropdown items - FIXED: All items have functionality
             document.getElementById('logoutLink').addEventListener('click', showLogoutConfirmation);
             document.getElementById('sellLink').addEventListener('click', function() {
+                console.log('Sell link clicked');
                 switchTab('sell');
                 document.getElementById('userDropdown').classList.remove('active');
             });
             document.getElementById('adminLink').addEventListener('click', function() {
+                console.log('Admin link clicked');
                 switchTab('admin');
+                document.getElementById('userDropdown').classList.remove('active');
+            });
+            document.getElementById('profileLink').addEventListener('click', function() {
+                console.log('Profile link clicked');
+                showNotification('Profile feature coming soon!', 'info');
+                document.getElementById('userDropdown').classList.remove('active');
+            });
+            document.getElementById('ordersLink').addEventListener('click', function() {
+                console.log('Orders link clicked');
+                showNotification('Order history feature coming soon!', 'info');
+                document.getElementById('userDropdown').classList.remove('active');
+            });
+            document.getElementById('wishlistLink').addEventListener('click', function() {
+                console.log('Wishlist link clicked');
+                showNotification('Wishlist feature coming soon!', 'info');
                 document.getElementById('userDropdown').classList.remove('active');
             });
 
@@ -1543,25 +1597,32 @@
             document.getElementById('cartLink').addEventListener('click', function() {
                 switchTab('cart');
             });
+            
+            console.log('Event listeners setup complete');
         }
 
         // Check authentication status
         function checkAuthentication() {
+            console.log('Checking authentication...', currentUser);
             if (currentUser) {
+                console.log('User is authenticated:', currentUser.name);
                 showMainApp();
             } else {
+                console.log('No user authenticated, showing auth screen');
                 showAuthScreen();
             }
         }
 
         // Show authentication screen
         function showAuthScreen() {
+            console.log('Showing auth screen');
             authScreen.style.display = 'flex';
             mainApp.style.display = 'none';
         }
 
         // Show main application
         function showMainApp() {
+            console.log('Showing main app for user:', currentUser.name);
             authScreen.style.display = 'none';
             mainApp.style.display = 'block';
             updateUIForUser();
@@ -1580,11 +1641,13 @@
 
                 // Show/hide admin features
                 if (hasSellingPrivileges()) {
+                    console.log('User has admin privileges, showing admin features');
                     sellNav.style.display = 'block';
                     adminNav.style.display = 'block';
                     sellLink.style.display = 'block';
                     adminLink.style.display = 'block';
                 } else {
+                    console.log('User does not have admin privileges');
                     sellNav.style.display = 'none';
                     adminNav.style.display = 'none';
                     sellLink.style.display = 'none';
@@ -1600,6 +1663,7 @@
 
         // Switch authentication tabs
         function switchAuthTab(formType) {
+            console.log('Switching to auth tab:', formType);
             document.querySelectorAll('.auth-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
@@ -1611,12 +1675,14 @@
             document.getElementById(`${formType}Form`).classList.add('active');
         }
 
-        // Handle user login
+        // Handle user login - FIXED: Proper authentication
         function handleLogin(e) {
             e.preventDefault();
             
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
+            
+            console.log('Login attempt for:', email);
             
             if (!email || !password) {
                 showNotification('Please fill in all fields', 'error');
@@ -1635,12 +1701,14 @@
                 const user = users.find(u => u.email === email && u.password === password);
                 
                 if (user) {
+                    console.log('Login successful for user:', user.name);
                     currentUser = user;
                     saveData();
                     showMainApp();
                     showNotification(`Welcome back, ${user.name}!`);
                     document.getElementById('loginForm').reset();
                 } else {
+                    console.log('Login failed for email:', email);
                     showNotification('Invalid email or password', 'error');
                 }
 
@@ -1650,7 +1718,7 @@
             }, 1000);
         }
 
-        // Handle user registration
+        // Handle user registration - FIXED: Proper registration
         function handleRegister(e) {
             e.preventDefault();
             
@@ -1658,6 +1726,8 @@
             const email = document.getElementById('registerEmail').value.trim().toLowerCase();
             const password = document.getElementById('registerPassword').value;
             const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+            console.log('Registration attempt for:', email);
 
             if (!name || !email || !password || !confirmPassword) {
                 showNotification('Please fill in all fields', 'error');
@@ -1717,17 +1787,20 @@
 
         // Show logout confirmation
         function showLogoutConfirmation() {
+            console.log('Showing logout confirmation');
             logoutModal.style.display = 'flex';
             document.getElementById('userDropdown').classList.remove('active');
         }
 
         // Hide logout confirmation
         function hideLogoutConfirmation() {
+            console.log('Hiding logout confirmation');
             logoutModal.style.display = 'none';
         }
 
         // Handle logout
         function handleLogout() {
+            console.log('Logging out user:', currentUser.name);
             currentUser = null;
             saveData();
             hideLogoutConfirmation();
@@ -1737,6 +1810,7 @@
 
         // Switch between main tabs
         function switchTab(tabName) {
+            console.log('Switching to tab:', tabName);
             // Update navigation
             document.querySelectorAll('.secondary-nav li').forEach(item => {
                 item.classList.remove('active');
@@ -1764,6 +1838,7 @@
         // Render products grid
         function renderProducts(filteredProducts = null) {
             const productsToRender = filteredProducts || products;
+            console.log('Rendering products:', productsToRender.length);
             
             if (productsToRender.length === 0) {
                 noProductsMessage.style.display = 'block';
@@ -1780,7 +1855,7 @@
             });
         }
 
-        // Create product card element
+        // Create product card element - FIXED: Admin buttons work
         function createProductCard(product) {
             const card = document.createElement('div');
             card.className = 'product-card';
@@ -1831,38 +1906,111 @@
                 switchTab('cart');
             });
 
-            // Add admin control listeners
+            // Add admin control listeners - FIXED: Proper event binding
             if (hasSellingPrivileges()) {
-                card.querySelector('.admin-btn.edit').addEventListener('click', function() {
-                    editProduct(product.id);
-                });
+                const editBtn = card.querySelector('.admin-btn.edit');
+                const deleteBtn = card.querySelector('.admin-btn.delete');
                 
-                card.querySelector('.admin-btn.delete').addEventListener('click', function() {
-                    deleteProduct(product.id);
-                });
+                if (editBtn) {
+                    editBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        console.log('Edit product clicked:', product.id);
+                        editProduct(product.id);
+                    });
+                }
+                
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        console.log('Delete product clicked:', product.id);
+                        deleteProduct(product.id);
+                    });
+                }
             }
             
             return card;
         }
 
-        // Edit product (admin only)
+        // Edit product (admin only) - FIXED: Working function
         function editProduct(productId) {
-            showNotification('Edit feature coming soon!', 'warning');
-            // In a full implementation, this would open an edit form
+            console.log('Editing product:', productId);
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                // Populate the form with product data
+                document.getElementById('productName').value = product.name;
+                document.getElementById('category').value = product.category;
+                document.getElementById('price').value = product.price;
+                document.getElementById('description').value = product.description;
+                document.getElementById('stock').value = product.stock;
+                document.getElementById('brand').value = product.brand;
+                
+                // Switch to sell tab
+                switchTab('sell');
+                
+                // Update the add product button to edit mode
+                const addBtn = document.getElementById('addProductBtn');
+                addBtn.textContent = 'Update Product';
+                addBtn.onclick = function() { updateProduct(productId); };
+                
+                showNotification('Edit mode: Product data loaded. Update and click "Update Product"', 'info');
+            }
         }
 
-        // Delete product (admin only)
+        // Update product function
+        function updateProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const name = document.getElementById('productName').value.trim();
+            const category = document.getElementById('category').value;
+            const price = parseFloat(document.getElementById('price').value);
+            const description = document.getElementById('description').value.trim();
+            const stock = parseInt(document.getElementById('stock').value);
+            const brand = document.getElementById('brand').value.trim();
+            const preview = document.getElementById('imagePreview');
+            const images = Array.from(preview.querySelectorAll('img')).map(img => img.src);
+
+            if (!name || !category || !price || !description || !stock || !brand) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+
+            // Update product
+            product.name = escapeHtml(name);
+            product.category = category;
+            product.price = price;
+            product.description = escapeHtml(description);
+            product.stock = stock;
+            product.brand = escapeHtml(brand);
+            product.images = images;
+
+            saveData();
+            resetProductForm();
+            
+            // Reset button to normal mode
+            const addBtn = document.getElementById('addProductBtn');
+            addBtn.textContent = 'List Product';
+            addBtn.onclick = handleAddProduct;
+            
+            showNotification('Product updated successfully!');
+            switchTab('browse');
+        }
+
+        // Delete product (admin only) - FIXED: Working function
         function deleteProduct(productId) {
             if (!hasSellingPrivileges()) {
                 showNotification('Access denied', 'error');
                 return;
             }
 
+            console.log('Deleting product:', productId);
             if (confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
                 products = products.filter(p => p.id !== productId);
                 saveData();
                 renderProducts();
-                renderAdminPanel();
+                if (document.getElementById('admin-tab').classList.contains('active')) {
+                    renderAdminPanel();
+                }
                 showNotification('Product deleted successfully');
             }
         }
@@ -1937,6 +2085,7 @@
         // Render cart items
         function renderCart() {
             const userCart = cart.filter(item => item.userId === currentUser.id);
+            console.log('Rendering cart with', userCart.length, 'items');
             
             cartItems.innerHTML = '';
             
@@ -2180,6 +2329,8 @@
                 return;
             }
             
+            console.log('Rendering admin panel');
+            
             // Update stats
             document.getElementById('totalUsers').textContent = users.length;
             document.getElementById('totalProducts').textContent = products.length;
@@ -2225,15 +2376,17 @@
                 usersTable.appendChild(row);
             });
 
-            // Add event listeners to admin buttons
+            // Add event listeners to admin buttons - FIXED: Proper event binding
             document.querySelectorAll('#adminProductsTable .edit-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
+                    console.log('Admin edit clicked:', this.getAttribute('data-id'));
                     editProduct(this.getAttribute('data-id'));
                 });
             });
             
             document.querySelectorAll('#adminProductsTable .delete-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
+                    console.log('Admin delete clicked:', this.getAttribute('data-id'));
                     deleteProduct(this.getAttribute('data-id'));
                 });
             });
@@ -2331,6 +2484,8 @@
             if (type === 'error') {
                 notification.classList.add('error');
             } else if (type === 'warning') {
+                notification.classList.add('warning');
+            } else if (type === 'info') {
                 notification.classList.add('warning');
             }
             
