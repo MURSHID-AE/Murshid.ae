@@ -1095,6 +1095,238 @@
             background-color: #d8d8d8;
         }
 
+        /* NEW: Enhanced Checkout Modal */
+        .checkout-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .checkout-modal-content {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .checkout-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .checkout-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--gray);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border: 3px solid var(--gray);
+            transition: all 0.3s;
+        }
+        
+        .checkout-step.active .step-number {
+            background-color: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+        
+        .checkout-step.completed .step-number {
+            background-color: var(--success);
+            color: var(--white);
+            border-color: var(--success);
+        }
+        
+        .step-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        .checkout-step.active .step-label {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .checkout-step.completed .step-label {
+            color: var(--success);
+        }
+        
+        .checkout-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50px;
+            right: 50px;
+            height: 3px;
+            background-color: var(--gray);
+            z-index: 0;
+        }
+        
+        .checkout-content {
+            display: none;
+        }
+        
+        .checkout-content.active {
+            display: block;
+        }
+        
+        .checkout-section {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .checkout-section h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .payment-method {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .payment-option {
+            flex: 1;
+            border: 2px solid var(--gray);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-option:hover {
+            border-color: var(--accent);
+        }
+        
+        .payment-option.selected {
+            border-color: var(--primary);
+            background-color: rgba(44, 85, 48, 0.05);
+        }
+        
+        .payment-option i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .order-summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid var(--gray);
+        }
+        
+        .checkout-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        /* NEW: Admin Order Notification */
+        .admin-notification {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background-color: var(--info);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 10000;
+            display: none;
+            max-width: 400px;
+            cursor: pointer;
+        }
+        
+        .admin-notification.warning {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+
+        /* Order Details in Admin */
+        .order-details-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .order-details-content {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .order-detail-section {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .order-detail-section h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .navbar {
@@ -1107,7 +1339,7 @@
                 max-width: 100%;
             }
             
-            .form-row {
+            .form-row, .form-row-3 {
                 grid-template-columns: 1fr;
             }
             
@@ -1155,6 +1387,24 @@
                 max-width: 100%;
                 margin-right: 0;
                 margin-bottom: 30px;
+            }
+
+            .checkout-steps {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .checkout-steps::before {
+                display: none;
+            }
+            
+            .checkout-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .payment-method {
+                flex-direction: column;
             }
         }
 
@@ -1273,6 +1523,237 @@
                 <button class="btn btn-secondary" id="cancelLogout">Cancel</button>
                 <button class="btn btn-primary" id="confirmLogout">Sign Out</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div class="order-details-modal" id="orderDetailsModal">
+        <div class="order-details-content">
+            <h2 class="section-title">Order Details</h2>
+            <div id="orderDetailsContent">
+                <!-- Order details will be loaded here -->
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" onclick="hideOrderDetails()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW: Enhanced Checkout Modal -->
+    <div class="checkout-modal" id="checkoutModal">
+        <div class="checkout-modal-content">
+            <h2 class="section-title">Checkout</h2>
+            
+            <div class="checkout-steps">
+                <div class="checkout-step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Shipping</div>
+                </div>
+                <div class="checkout-step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Payment</div>
+                </div>
+                <div class="checkout-step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Review</div>
+                </div>
+            </div>
+            
+            <!-- Step 1: Shipping Address -->
+            <div class="checkout-content active" id="checkout-step-1">
+                <div class="checkout-section">
+                    <h3>Shipping Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shippingFirstName">First Name *</label>
+                            <input type="text" id="shippingFirstName" placeholder="Enter first name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shippingLastName">Last Name *</label>
+                            <input type="text" id="shippingLastName" placeholder="Enter last name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="shippingAddress">Street Address *</label>
+                        <input type="text" id="shippingAddress" placeholder="Enter street address" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shippingCity">City *</label>
+                            <input type="text" id="shippingCity" placeholder="Enter city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shippingState">State/Province *</label>
+                            <input type="text" id="shippingState" placeholder="Enter state" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shippingZip">ZIP/Postal Code *</label>
+                            <input type="text" id="shippingZip" placeholder="Enter ZIP code" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shippingCountry">Country *</label>
+                            <select id="shippingCountry" required>
+                                <option value="">Select Country</option>
+                                <option value="US">United States</option>
+                                <option value="CA">Canada</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="AU">Australia</option>
+                                <option value="DE">Germany</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="shippingPhone">Phone Number *</label>
+                        <input type="tel" id="shippingPhone" placeholder="Enter phone number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shippingEmail">Email Address *</label>
+                        <input type="email" id="shippingEmail" placeholder="Enter email for updates" required>
+                    </div>
+                </div>
+                
+                <div class="checkout-actions">
+                    <button class="btn btn-secondary" onclick="hideCheckoutModal()">
+                        <i class="fas fa-arrow-left"></i> Back to Cart
+                    </button>
+                    <button class="btn btn-primary" onclick="validateShippingAndProceed()">
+                        Continue to Payment <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Step 2: Payment Method -->
+            <div class="checkout-content" id="checkout-step-2">
+                <div class="checkout-section">
+                    <h3>Payment Method</h3>
+                    <div class="payment-method">
+                        <div class="payment-option selected" data-method="card">
+                            <i class="fas fa-credit-card"></i>
+                            <div>Credit/Debit Card</div>
+                        </div>
+                        <div class="payment-option" data-method="paypal">
+                            <i class="fab fa-paypal"></i>
+                            <div>PayPal</div>
+                        </div>
+                        <div class="payment-option" data-method="cash">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <div>Cash on Delivery</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card Payment Form -->
+                    <div id="cardPaymentForm">
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number *</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cardName">Name on Card *</label>
+                                <input type="text" id="cardName" placeholder="Enter name as on card">
+                            </div>
+                            <div class="form-group">
+                                <label for="cardExpiry">Expiry Date *</label>
+                                <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cardCVV">CVV *</label>
+                                <input type="text" id="cardCVV" placeholder="123" maxlength="4">
+                            </div>
+                            <div class="form-group">
+                                <label for="saveCard">Save card for future purchases</label>
+                                <input type="checkbox" id="saveCard" style="width: auto; margin-top: 5px;">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PayPal Notice -->
+                    <div id="paypalNotice" style="display: none;">
+                        <div class="security-notice">
+                            <i class="fab fa-paypal"></i>
+                            You will be redirected to PayPal to complete your payment after order review.
+                        </div>
+                    </div>
+                    
+                    <!-- Cash on Delivery Notice -->
+                    <div id="cashNotice" style="display: none;">
+                        <div class="security-notice">
+                            <i class="fas fa-money-bill-wave"></i>
+                            Pay with cash when your order is delivered. Additional $2.00 fee applies.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="checkout-actions">
+                    <button class="btn btn-secondary" onclick="goToCheckoutStep(1)">
+                        <i class="fas fa-arrow-left"></i> Back to Shipping
+                    </button>
+                    <button class="btn btn-primary" onclick="validatePaymentAndProceed()">
+                        Continue to Review <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Step 3: Order Review -->
+            <div class="checkout-content" id="checkout-step-3">
+                <div class="checkout-section">
+                    <h3>Order Summary</h3>
+                    <div id="orderReviewItems">
+                        <!-- Order items will be loaded here -->
+                    </div>
+                    
+                    <div class="order-summary-item">
+                        <span>Items:</span>
+                        <span id="reviewItemsTotal">$0.00</span>
+                    </div>
+                    <div class="order-summary-item">
+                        <span>Shipping:</span>
+                        <span id="reviewShipping">$5.99</span>
+                    </div>
+                    <div class="order-summary-item">
+                        <span>Tax:</span>
+                        <span id="reviewTax">$0.00</span>
+                    </div>
+                    <div class="order-total">
+                        <span>Order Total:</span>
+                        <span id="reviewOrderTotal">$0.00</span>
+                    </div>
+                </div>
+                
+                <div class="checkout-section">
+                    <h3>Shipping Details</h3>
+                    <div id="reviewShippingDetails">
+                        <!-- Shipping details will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="checkout-section">
+                    <h3>Payment Method</h3>
+                    <div id="reviewPaymentDetails">
+                        <!-- Payment details will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="checkout-actions">
+                    <button class="btn btn-secondary" onclick="goToCheckoutStep(2)">
+                        <i class="fas fa-arrow-left"></i> Back to Payment
+                    </button>
+                    <button class="btn btn-primary" onclick="placeOrder()">
+                        <i class="fas fa-shopping-bag"></i> Place Your Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW: Admin Order Notification -->
+    <div class="admin-notification" id="adminOrderNotification">
+        <div id="adminNotificationContent">
+            <!-- Admin notifications will appear here -->
         </div>
     </div>
 
@@ -1537,6 +2018,24 @@
                             <!-- Users will be dynamically added here -->
                         </tbody>
                     </table>
+
+                    <!-- NEW: Enhanced Orders Section in Admin Panel -->
+                    <h3 style="margin-top: 30px;">Recent Orders</h3>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminOrdersTable">
+                            <!-- Orders will be dynamically added here -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
             
@@ -1683,6 +2182,15 @@
         let currentUser = JSON.parse(localStorage.getItem('murshid_currentUser')) || null;
         let currentProductDetail = null;
 
+        // NEW: Checkout variables
+        let currentCheckoutStep = 1;
+        let selectedPaymentMethod = 'card';
+        let checkoutData = {
+            shipping: {},
+            payment: {},
+            order: {}
+        };
+
         // DOM elements
         const authScreen = document.getElementById('authScreen');
         const mainApp = document.getElementById('mainApp');
@@ -1702,6 +2210,11 @@
         const logoutModal = document.getElementById('logoutModal');
         const productDetail = document.getElementById('productDetail');
         const backToProducts = document.getElementById('backToProducts');
+
+        // NEW: Checkout modal elements
+        const checkoutModal = document.getElementById('checkoutModal');
+        const adminOrderNotification = document.getElementById('adminOrderNotification');
+        const orderDetailsModal = document.getElementById('orderDetailsModal');
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
@@ -1850,7 +2363,9 @@
             document.getElementById('imageInput').addEventListener('change', handleImageUpload);
 
             // Cart functionality
-            document.getElementById('checkoutBtn').addEventListener('click', handleCheckout);
+            document.getElementById('checkoutBtn').addEventListener('click', function() {
+                showCheckoutModal();
+            });
             document.getElementById('cartLink').addEventListener('click', function() {
                 switchTab('cart');
             });
@@ -1877,8 +2392,477 @@
                     switchTab('cart');
                 }
             });
+
+            // NEW: Payment method selection
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    selectPaymentMethod(this.getAttribute('data-method'));
+                });
+            });
+
+            // NEW: Admin notification click
+            adminOrderNotification.addEventListener('click', function() {
+                if (hasSellingPrivileges()) {
+                    switchTab('admin');
+                    this.style.display = 'none';
+                }
+            });
+
+            // NEW: Card number formatting
+            document.getElementById('cardNumber').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+                let matches = value.match(/\d{4,16}/g);
+                let match = matches && matches[0] || '';
+                let parts = [];
+                
+                for (let i = 0; i < match.length; i += 4) {
+                    parts.push(match.substring(i, i + 4));
+                }
+                
+                if (parts.length) {
+                    e.target.value = parts.join(' ');
+                } else {
+                    e.target.value = value;
+                }
+            });
+
+            // NEW: Expiry date formatting
+            document.getElementById('cardExpiry').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    e.target.value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+            });
             
             console.log('Event listeners setup complete');
+        }
+
+        // NEW: Select payment method
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            
+            // Update UI
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.querySelector(`.payment-option[data-method="${method}"]`).classList.add('selected');
+            
+            // Show/hide relevant forms
+            document.getElementById('cardPaymentForm').style.display = method === 'card' ? 'block' : 'none';
+            document.getElementById('paypalNotice').style.display = method === 'paypal' ? 'block' : 'none';
+            document.getElementById('cashNotice').style.display = method === 'cash' ? 'block' : 'none';
+        }
+
+        // NEW: Show checkout modal
+        function showCheckoutModal() {
+            const userCart = cart.filter(item => item.userId === currentUser.id);
+            if (userCart.length === 0) {
+                showNotification('Your cart is empty', 'error');
+                return;
+            }
+            
+            // Reset checkout to step 1
+            currentCheckoutStep = 1;
+            renderCheckoutStep(1);
+            
+            // Pre-fill user information
+            if (currentUser) {
+                document.getElementById('shippingEmail').value = currentUser.email;
+                const nameParts = currentUser.name.split(' ');
+                if (nameParts.length > 0) {
+                    document.getElementById('shippingFirstName').value = nameParts[0];
+                    if (nameParts.length > 1) {
+                        document.getElementById('shippingLastName').value = nameParts.slice(1).join(' ');
+                    }
+                }
+            }
+            
+            checkoutModal.style.display = 'flex';
+        }
+
+        // NEW: Hide checkout modal
+        function hideCheckoutModal() {
+            checkoutModal.style.display = 'none';
+            // Reset checkout data
+            checkoutData = {
+                shipping: {},
+                payment: {},
+                order: {}
+            };
+        }
+
+        // NEW: Validate shipping and proceed to payment
+        function validateShippingAndProceed() {
+            const shippingData = {
+                firstName: document.getElementById('shippingFirstName').value.trim(),
+                lastName: document.getElementById('shippingLastName').value.trim(),
+                address: document.getElementById('shippingAddress').value.trim(),
+                city: document.getElementById('shippingCity').value.trim(),
+                state: document.getElementById('shippingState').value.trim(),
+                zip: document.getElementById('shippingZip').value.trim(),
+                country: document.getElementById('shippingCountry').value,
+                phone: document.getElementById('shippingPhone').value.trim(),
+                email: document.getElementById('shippingEmail').value.trim()
+            };
+            
+            // Validate required fields
+            const requiredFields = ['firstName', 'lastName', 'address', 'city', 'state', 'zip', 'country', 'phone', 'email'];
+            for (let field of requiredFields) {
+                if (!shippingData[field]) {
+                    showNotification(`Please fill in all shipping information`, 'error');
+                    return;
+                }
+            }
+            
+            // Validate email
+            if (!isValidEmail(shippingData.email)) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Validate phone (basic validation)
+            if (shippingData.phone.replace(/\D/g, '').length < 10) {
+                showNotification('Please enter a valid phone number', 'error');
+                return;
+            }
+            
+            // Save shipping data
+            checkoutData.shipping = shippingData;
+            
+            // Proceed to payment
+            goToCheckoutStep(2);
+        }
+
+        // NEW: Validate payment and proceed to review
+        function validatePaymentAndProceed() {
+            let paymentData = {
+                method: selectedPaymentMethod
+            };
+            
+            if (selectedPaymentMethod === 'card') {
+                paymentData.card = {
+                    number: document.getElementById('cardNumber').value.replace(/\s/g, ''),
+                    name: document.getElementById('cardName').value.trim(),
+                    expiry: document.getElementById('cardExpiry').value,
+                    cvv: document.getElementById('cardCVV').value,
+                    save: document.getElementById('saveCard').checked
+                };
+                
+                // Validate card details
+                if (!paymentData.card.number || paymentData.card.number.replace(/\D/g, '').length < 16) {
+                    showNotification('Please enter a valid card number', 'error');
+                    return;
+                }
+                
+                if (!paymentData.card.name) {
+                    showNotification('Please enter the name on card', 'error');
+                    return;
+                }
+                
+                if (!paymentData.card.expiry || !paymentData.card.expiry.match(/^\d{2}\/\d{2}$/)) {
+                    showNotification('Please enter a valid expiry date (MM/YY)', 'error');
+                    return;
+                }
+                
+                if (!paymentData.card.cvv || paymentData.card.cvv.length < 3) {
+                    showNotification('Please enter a valid CVV', 'error');
+                    return;
+                }
+                
+                // Mask card number for security (only show last 4 digits)
+                paymentData.card.displayNumber = '**** **** **** ' + paymentData.card.number.slice(-4);
+            }
+            
+            // Save payment data
+            checkoutData.payment = paymentData;
+            
+            // Render order review
+            renderOrderReview();
+            
+            // Proceed to review
+            goToCheckoutStep(3);
+        }
+
+        // NEW: Render checkout steps
+        function renderCheckoutStep(step) {
+            currentCheckoutStep = step;
+            
+            // Update step indicators
+            document.querySelectorAll('.checkout-step').forEach(stepEl => {
+                const stepNum = parseInt(stepEl.getAttribute('data-step'));
+                stepEl.classList.remove('active', 'completed');
+                
+                if (stepNum === step) {
+                    stepEl.classList.add('active');
+                } else if (stepNum < step) {
+                    stepEl.classList.add('completed');
+                }
+            });
+            
+            // Show current step content
+            document.querySelectorAll('.checkout-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`checkout-step-${step}`).classList.add('active');
+        }
+
+        // NEW: Go to specific checkout step
+        function goToCheckoutStep(step) {
+            renderCheckoutStep(step);
+        }
+
+        // NEW: Render order review
+        function renderOrderReview() {
+            const userCart = cart.filter(item => item.userId === currentUser.id);
+            const itemsContainer = document.getElementById('orderReviewItems');
+            const shippingContainer = document.getElementById('reviewShippingDetails');
+            const paymentContainer = document.getElementById('reviewPaymentDetails');
+            
+            // Render items
+            itemsContainer.innerHTML = '';
+            let itemsTotal = 0;
+            
+            userCart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                itemsTotal += itemTotal;
+                
+                const itemElement = document.createElement('div');
+                itemElement.className = 'order-summary-item';
+                itemElement.innerHTML = `
+                    <div>
+                        <strong>${item.name}</strong>
+                        <div>Qty: ${item.quantity}</div>
+                    </div>
+                    <div>$${itemTotal.toFixed(2)}</div>
+                `;
+                itemsContainer.appendChild(itemElement);
+            });
+            
+            // Calculate totals
+            let shipping = itemsTotal > 0 ? 5.99 : 0; // Flat rate shipping
+            if (selectedPaymentMethod === 'cash') {
+                shipping += 2.00; // Additional fee for cash on delivery
+            }
+            const tax = itemsTotal * 0.08; // 8% tax
+            const orderTotal = itemsTotal + shipping + tax;
+            
+            document.getElementById('reviewItemsTotal').textContent = `$${itemsTotal.toFixed(2)}`;
+            document.getElementById('reviewShipping').textContent = `$${shipping.toFixed(2)}`;
+            document.getElementById('reviewTax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('reviewOrderTotal').textContent = `$${orderTotal.toFixed(2)}`;
+            
+            // Render shipping details
+            shippingContainer.innerHTML = `
+                <p><strong>${checkoutData.shipping.firstName} ${checkoutData.shipping.lastName}</strong></p>
+                <p>${checkoutData.shipping.address}</p>
+                <p>${checkoutData.shipping.city}, ${checkoutData.shipping.state} ${checkoutData.shipping.zip}</p>
+                <p>${checkoutData.shipping.country}</p>
+                <p>Phone: ${checkoutData.shipping.phone}</p>
+                <p>Email: ${checkoutData.shipping.email}</p>
+            `;
+            
+            // Render payment details
+            let paymentHtml = '';
+            if (selectedPaymentMethod === 'card') {
+                paymentHtml = `
+                    <p><strong>Credit/Debit Card</strong></p>
+                    <p>Card: ${checkoutData.payment.card.displayNumber}</p>
+                    <p>Name: ${checkoutData.payment.card.name}</p>
+                    <p>Expires: ${checkoutData.payment.card.expiry}</p>
+                `;
+            } else if (selectedPaymentMethod === 'paypal') {
+                paymentHtml = `
+                    <p><strong>PayPal</strong></p>
+                    <p>You will complete payment through PayPal</p>
+                `;
+            } else if (selectedPaymentMethod === 'cash') {
+                paymentHtml = `
+                    <p><strong>Cash on Delivery</strong></p>
+                    <p>Pay with cash when your order is delivered</p>
+                    <p><em>Additional $2.00 fee applied</em></p>
+                `;
+            }
+            paymentContainer.innerHTML = paymentHtml;
+            
+            // Save order data
+            checkoutData.order = {
+                itemsTotal: itemsTotal,
+                shipping: shipping,
+                tax: tax,
+                total: orderTotal
+            };
+        }
+
+        // NEW: Enhanced place order function with real data
+        function placeOrder() {
+            const userCart = cart.filter(item => item.userId === currentUser.id);
+            if (userCart.length === 0) {
+                showNotification('Your cart is empty', 'error');
+                return;
+            }
+            
+            // Create order with all details
+            const order = {
+                id: generateId(),
+                userId: currentUser.id,
+                customerName: currentUser.name,
+                customerEmail: currentUser.email,
+                items: userCart.map(item => ({
+                    productId: item.productId,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity,
+                    seller: item.seller,
+                    itemTotal: item.price * item.quantity
+                })),
+                shipping: checkoutData.shipping,
+                payment: checkoutData.payment,
+                subtotal: checkoutData.order.itemsTotal,
+                shippingCost: checkoutData.order.shipping,
+                tax: checkoutData.order.tax,
+                total: checkoutData.order.total,
+                status: 'confirmed',
+                date: new Date().toISOString(),
+                orderNumber: 'MUR' + Date.now().toString().slice(-6)
+            };
+            
+            // Add to orders
+            orders.push(order);
+            
+            // Update product stock
+            userCart.forEach(cartItem => {
+                const product = products.find(p => p.id === cartItem.productId);
+                if (product) {
+                    product.stock -= cartItem.quantity;
+                }
+            });
+            
+            // Clear user's cart
+            cart = cart.filter(item => item.userId !== currentUser.id);
+            
+            // Save data
+            saveData();
+            
+            // Show admin notification if admin is logged in
+            showAdminOrderNotification(order);
+            
+            // Hide checkout modal
+            hideCheckoutModal();
+            
+            // Update cart
+            renderCart();
+            updateCartCount();
+            
+            // Show success message
+            showNotification(`Order #${order.orderNumber} placed successfully! Total: $${order.total.toFixed(2)}`);
+            
+            // Switch to browse tab
+            switchTab('browse');
+        }
+
+        // NEW: Show admin order notification with detailed information
+        function showAdminOrderNotification(order) {
+            // Check if admin is logged in
+            if (hasSellingPrivileges()) {
+                const contentEl = document.getElementById('adminNotificationContent');
+                
+                contentEl.innerHTML = `
+                    <div>
+                        <strong>🛎️ New Order Received!</strong>
+                        <div>Order #: ${order.orderNumber}</div>
+                        <div>Customer: ${order.customerName}</div>
+                        <div>Total: $${order.total.toFixed(2)}</div>
+                        <div>Payment: ${order.payment.method.toUpperCase()}</div>
+                        <div>Items: ${order.items.length} products</div>
+                        <small>Click to view full details</small>
+                    </div>
+                `;
+                
+                adminOrderNotification.style.display = 'block';
+                
+                // Auto-hide after 10 seconds
+                setTimeout(() => {
+                    adminOrderNotification.style.display = 'none';
+                }, 10000);
+            }
+        }
+
+        // NEW: Show order details in admin panel
+        function showOrderDetails(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            const customer = users.find(u => u.id === order.userId);
+            const contentEl = document.getElementById('orderDetailsContent');
+            
+            let itemsHtml = '';
+            order.items.forEach(item => {
+                itemsHtml += `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--gray);">
+                        <div>
+                            <strong>${item.name}</strong>
+                            <div>Qty: ${item.quantity} × $${item.price.toFixed(2)}</div>
+                            <div>Seller: ${item.seller}</div>
+                        </div>
+                        <div>$${item.itemTotal.toFixed(2)}</div>
+                    </div>
+                `;
+            });
+            
+            contentEl.innerHTML = `
+                <div class="order-detail-section">
+                    <h4>Order Information</h4>
+                    <p><strong>Order Number:</strong> ${order.orderNumber}</p>
+                    <p><strong>Order Date:</strong> ${new Date(order.date).toLocaleString()}</p>
+                    <p><strong>Status:</strong> ${order.status}</p>
+                </div>
+                
+                <div class="order-detail-section">
+                    <h4>Customer Information</h4>
+                    <p><strong>Name:</strong> ${order.customerName}</p>
+                    <p><strong>Email:</strong> ${order.customerEmail}</p>
+                    <p><strong>Phone:</strong> ${order.shipping.phone}</p>
+                </div>
+                
+                <div class="order-detail-section">
+                    <h4>Shipping Address</h4>
+                    <p>${order.shipping.firstName} ${order.shipping.lastName}</p>
+                    <p>${order.shipping.address}</p>
+                    <p>${order.shipping.city}, ${order.shipping.state} ${order.shipping.zip}</p>
+                    <p>${order.shipping.country}</p>
+                </div>
+                
+                <div class="order-detail-section">
+                    <h4>Payment Information</h4>
+                    <p><strong>Method:</strong> ${order.payment.method.toUpperCase()}</p>
+                    ${order.payment.method === 'card' ? `
+                        <p><strong>Card:</strong> ${order.payment.card.displayNumber}</p>
+                        <p><strong>Name on Card:</strong> ${order.payment.card.name}</p>
+                        <p><strong>Expires:</strong> ${order.payment.card.expiry}</p>
+                    ` : ''}
+                    ${order.payment.method === 'cash' ? '<p><em>Cash on Delivery - Additional $2.00 fee applied</em></p>' : ''}
+                </div>
+                
+                <div class="order-detail-section">
+                    <h4>Order Items</h4>
+                    ${itemsHtml}
+                </div>
+                
+                <div class="order-detail-section">
+                    <h4>Order Summary</h4>
+                    <p><strong>Subtotal:</strong> $${order.subtotal.toFixed(2)}</p>
+                    <p><strong>Shipping:</strong> $${order.shippingCost.toFixed(2)}</p>
+                    <p><strong>Tax:</strong> $${order.tax.toFixed(2)}</p>
+                    <p><strong style="font-size: 18px;">Total:</strong> $${order.total.toFixed(2)}</p>
+                </div>
+            `;
+            
+            orderDetailsModal.style.display = 'flex';
+        }
+
+        // NEW: Hide order details modal
+        function hideOrderDetails() {
+            orderDetailsModal.style.display = 'none';
         }
 
         // Check authentication status
@@ -2656,7 +3640,7 @@
             document.getElementById('imagePreview').innerHTML = '';
         }
 
-        // Render admin panel
+        // NEW: Enhanced admin panel with order details
         function renderAdminPanel() {
             if (!hasSellingPrivileges()) {
                 showNotification('Access denied. Admin privileges required.', 'error');
@@ -2709,6 +3693,31 @@
                     <td>${new Date(user.createdAt).toLocaleDateString()}</td>
                 `;
                 usersTable.appendChild(row);
+            });
+
+            // NEW: Enhanced orders table with view details
+            const ordersTable = document.getElementById('adminOrdersTable');
+            ordersTable.innerHTML = '';
+            
+            // Show recent orders (last 10)
+            const recentOrders = orders.slice(-10).reverse();
+            
+            recentOrders.forEach(order => {
+                const customer = users.find(u => u.id === order.userId);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${order.orderNumber}</td>
+                    <td>${customer ? customer.name : 'Unknown'}</td>
+                    <td>${new Date(order.date).toLocaleDateString()}</td>
+                    <td>$${order.total.toFixed(2)}</td>
+                    <td>${order.status}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn edit-btn" onclick="showOrderDetails('${order.id}')">View</button>
+                        </div>
+                    </td>
+                `;
+                ordersTable.appendChild(row);
             });
 
             // Add event listeners to admin buttons
@@ -2851,39 +3860,6 @@
             if (filteredProducts.length === 0) {
                 showNotification('No products found matching your search', 'warning');
             }
-        }
-
-        // Handle checkout
-        function handleCheckout() {
-            const userCart = cart.filter(item => item.userId === currentUser.id);
-            
-            if (userCart.length === 0) {
-                showNotification('Your cart is empty', 'error');
-                return;
-            }
-            
-            for (const item of userCart) {
-                const product = products.find(p => p.id === item.productId);
-                if (!product || product.stock < item.quantity) {
-                    showNotification(`Sorry, ${product.name} is no longer available in the requested quantity`, 'error');
-                    renderCart();
-                    return;
-                }
-            }
-            
-            userCart.forEach(item => {
-                const product = products.find(p => p.id === item.productId);
-                if (product) {
-                    product.stock -= item.quantity;
-                }
-            });
-            
-            cart = cart.filter(item => item.userId !== currentUser.id);
-            
-            saveData();
-            updateCartCount();
-            renderCart();
-            showNotification('Order placed successfully! Thank you for shopping with Murshid!');
         }
 
         // Security utility functions
